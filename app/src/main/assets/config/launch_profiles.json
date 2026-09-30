@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-30",
+  "profiles": [
+    {
+      "id": "retroarch_future",
+      "emulatorId": "retroarch_aarch64",
+      "activityName": "com.retroarch.browser.retroactivity.RetroActivityFuture",
+      "action": "android.intent.action.MAIN",
+      "category": "android.intent.category.LAUNCHER",
+      "romExtraKey": "ROM",
+      "libretroExtraKey": "LIBRETRO",
+      "configFileExtraKey": "CONFIGFILE",
+      "grantReadUriPermission": true,
+      "verified": true
+    },
+    {
+      "id": "arley4d_bypass_view",
+      "emulatorId": "arley4d",
+      "activityName": "com.arley4d.bypassarley4d.MainActivity",
+      "action": "android.intent.action.VIEW",
+      "category": null,
+      "useDataUri": true,
+      "useClipData": true,
+      "grantReadUriPermission": true,
+      "newTaskFlag": true,
+      "verified": true
+    },
+    {
+      "id": "standalone_view_uri",
+      "emulatorId": "ppsspp",
+      "activityName": "org.ppsspp.ppsspp.PpssppActivity",
+      "action": "android.intent.action.VIEW",
+      "useDataUri": true,
+      "useClipData": true,
+      "grantReadUriPermission": true,
+      "newTaskFlag": true,
+      "verified": true
+    }
+  ]
+}

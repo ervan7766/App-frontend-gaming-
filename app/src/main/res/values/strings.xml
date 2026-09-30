@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">AetherDeck</string>
+    <string name="welcome_title">BIENVENIDO A AETHERDECK</string>
+    <string name="welcome_subtitle">Prepara tu biblioteca en unos pocos pasos.</string>
+    <string name="no_artwork">SIN CARÁTULA</string>
+    <string name="empty_library_title">Tu biblioteca está vacía</string>
+    <string name="empty_library_subtitle">Selecciona tu carpeta raíz de ROMs, Fake ROMs de Arley4d o sincroniza un catálogo para mostrar tus juegos automáticamente.</string>
+    <string name="action_add_library">AÑADIR BIBLIOTECA</string>
+    <string name="action_play">JUGAR</string>
+    <string name="action_surprise_me">Sorpréndeme</string>
+    <string name="action_rescan">REESCANEAR</string>
+    <string name="status_offline">SIN CONEXIÓN</string>
+    <string name="action_retry">Reintentar</string>
+    <string name="nav_home">Inicio</string>
+    <string name="nav_library">Biblioteca</string>
+    <string name="nav_systems">Sistemas</string>
+    <string name="nav_collections">Colecciones</string>
+    <string name="nav_apps">Apps</string>
+    <string name="nav_settings">Configuración</string>
+    <string name="nav_more">Más</string>
+    <string name="search_games_hint">Buscar juegos...</string>
+    <string name="filter_label">Filtro</string>
+    <string name="sort_label">Orden</string>
+    <string name="view_label">Vista</string>
+    <string name="task_center_title">Centro de tareas</string>
+    <string name="task_view_button">Ver</string>
+    <string name="cannot_launch_title">NO SE PUEDE INICIAR</string>
+    <string name="change_core_button">CAMBIAR CORE</string>
+    <string name="open_retroarch_button">ABRIR RETROARCH</string>
+    <string name="change_button">CAMBIAR</string>
+    <string name="arley_preparing">Preparando con Arley4d…</string>
+    <string name="arley_opening">Abriendo Arley4d…</string>
+</resources>

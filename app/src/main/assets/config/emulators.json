@@ -1,0 +1,218 @@
+{
+  "version": 2,
+  "updatedAt": "2026-09-30",
+  "emulators": [
+    {
+      "id": "retroarch_aarch64",
+      "name": "RetroArch (64-bit)",
+      "packages": ["com.retroarch.aarch64"],
+      "activities": ["com.retroarch.browser.retroactivity.RetroActivityFuture"],
+      "supportedSystems": ["psx", "ps2", "psp", "snes", "nes", "gb", "gbc", "gba", "n64", "nds", "3ds", "gc", "genesis", "dreamcast", "arcade"],
+      "extensions": ["bin", "cue", "chd", "iso", "pbp", "m3u", "sfc", "smc", "nes", "gb", "gbc", "gba", "z64", "n64", "v64", "nds", "3ds", "rvz", "md", "gen", "gdi", "cdi", "zip", "7z"],
+      "launchType": "RETROARCH",
+      "supportsContentUri": true,
+      "supportsFilePath": true,
+      "requiresCore": true,
+      "verified": true,
+      "config": {
+        "defaultConfigPath": "/storage/emulated/0/Android/data/com.retroarch.aarch64/files/retroarch.cfg"
+      }
+    },
+    {
+      "id": "retroarch",
+      "name": "RetroArch",
+      "packages": ["com.retroarch"],
+      "activities": ["com.retroarch.browser.retroactivity.RetroActivityFuture"],
+      "supportedSystems": ["psx", "ps2", "psp", "snes", "nes", "gb", "gbc", "gba", "n64", "nds", "genesis", "dreamcast", "arcade"],
+      "extensions": ["bin", "cue", "chd", "iso", "pbp", "m3u", "sfc", "smc", "nes", "gb", "gbc", "gba", "z64", "n64", "v64", "nds", "md", "gen", "gdi", "cdi", "zip", "7z"],
+      "launchType": "RETROARCH",
+      "supportsContentUri": true,
+      "supportsFilePath": true,
+      "requiresCore": true,
+      "verified": true,
+      "config": {
+        "defaultConfigPath": "/storage/emulated/0/Android/data/com.retroarch/files/retroarch.cfg"
+      }
+    },
+    {
+      "id": "retroarch_ra32",
+      "name": "RetroArch (32-bit)",
+      "packages": ["com.retroarch.ra32"],
+      "activities": ["com.retroarch.browser.retroactivity.RetroActivityFuture"],
+      "supportedSystems": ["psx", "snes", "nes", "gb", "gbc", "gba", "genesis", "arcade"],
+      "extensions": ["bin", "cue", "chd", "iso", "pbp", "sfc", "smc", "nes", "gb", "gbc", "gba", "md", "gen", "zip", "7z"],
+      "launchType": "RETROARCH",
+      "supportsContentUri": true,
+      "supportsFilePath": true,
+      "requiresCore": true,
+      "verified": true,
+      "config": {
+        "defaultConfigPath": "/storage/emulated/0/Android/data/com.retroarch.ra32/files/retroarch.cfg"
+      }
+    },
+    {
+      "id": "arley4d",
+      "name": "Arley4d Bypass",
+      "packages": ["com.arley4d.bypassarley4d"],
+      "activities": ["com.arley4d.bypassarley4d.MainActivity"],
+      "supportedSystems": ["psx", "ps2", "psp", "snes", "nes", "gb", "gbc", "gba", "n64", "nds", "3ds", "gc", "wii", "genesis", "dreamcast", "vita", "arcade", "xbox", "xbox360"],
+      "extensions": ["arley", "fakerom", "txt", "json", "bin", "iso", "chd", "rvz", "zip", "cso", "pbp"],
+      "launchType": "ARLEY4D_BYPASS",
+      "supportsContentUri": true,
+      "supportsFilePath": false,
+      "requiresCore": false,
+      "verified": true,
+      "config": {
+        "action": "android.intent.action.VIEW"
+      }
+    },
+    {
+      "id": "ppsspp",
+      "name": "PPSSPP",
+      "packages": ["org.ppsspp.ppsspp", "org.ppsspp.ppssppgold"],
+      "activities": ["org.ppsspp.ppsspp.PpssppActivity"],
+      "supportedSystems": ["psp"],
+      "extensions": ["iso", "cso", "pbp", "chd", "elf"],
+      "launchType": "STANDALONE_VIEW_DATA",
+      "supportsContentUri": true,
+      "supportsFilePath": true,
+      "requiresCore": false,
+      "verified": true,
+      "config": {
+        "action": "android.intent.action.VIEW"
+      }
+    },
+    {
+      "id": "duckstation",
+      "name": "DuckStation",
+      "packages": ["com.github.stenzek.duckstation"],
+      "activities": ["com.github.stenzek.duckstation.EmulationActivity", "com.github.stenzek.duckstation.MainActivity"],
+      "supportedSystems": ["psx"],
+      "extensions": ["bin", "cue", "chd", "iso", "pbp", "m3u", "img"],
+      "launchType": "STANDALONE_EXTRA_OR_DATA",
+      "supportsContentUri": true,
+      "supportsFilePath": true,
+      "requiresCore": false,
+      "verified": true,
+      "config": {
+        "action": "android.intent.action.VIEW",
+        "extraKey": "bootPath"
+      }
+    },
+    {
+      "id": "dolphin",
+      "name": "Dolphin Emulator",
+      "packages": ["org.dolphinemu.dolphinemu", "org.dolphinemu.dolphinemu.mmjr"],
+      "activities": ["org.dolphinemu.dolphinemu.ui.main.MainActivity", "org.dolphinemu.dolphinemu.activities.EmulationActivity"],
+      "supportedSystems": ["gc", "wii"],
+      "extensions": ["rvz", "iso", "gcm", "gcz", "wbfs", "ciso", "wad", "m3u"],
+      "launchType": "STANDALONE_EXTRA_OR_DATA",
+      "supportsContentUri": true,
+      "supportsFilePath": true,
+      "requiresCore": false,
+      "verified": true,
+      "config": {
+        "action": "android.intent.action.VIEW",
+        "extraKey": "AutoStartFile"
+      }
+    },
+    {
+      "id": "aethersx2",
+      "name": "AetherSX2 / NetherSX2",
+      "packages": ["xyz.aethersx2.android"],
+      "activities": ["xyz.aethersx2.android.EmulationActivity", "xyz.aethersx2.android.MainActivity"],
+      "supportedSystems": ["ps2"],
+      "extensions": ["iso", "chd", "bin", "cso", "gz", "m3u"],
+      "launchType": "STANDALONE_EXTRA_OR_DATA",
+      "supportsContentUri": true,
+      "supportsFilePath": true,
+      "requiresCore": false,
+      "verified": true,
+      "config": {
+        "action": "android.intent.action.VIEW",
+        "extraKey": "bootPath"
+      }
+    },
+    {
+      "id": "melonds",
+      "name": "melonDS",
+      "packages": ["me.magnum.melonds"],
+      "activities": ["me.magnum.melonds.ui.emulator.EmulatorActivity"],
+      "supportedSystems": ["nds"],
+      "extensions": ["nds", "dsi", "zip", "7z"],
+      "launchType": "STANDALONE_EXTRA_OR_DATA",
+      "supportsContentUri": true,
+      "supportsFilePath": true,
+      "requiresCore": false,
+      "verified": true,
+      "config": {
+        "action": "me.magnum.melonds.LAUNCH_ROM",
+        "extraKey": "uri"
+      }
+    },
+    {
+      "id": "lime3ds",
+      "name": "Lime3DS / Citra",
+      "packages": ["io.github.lime3ds.android", "org.citra.citra_emu"],
+      "activities": ["org.citra.citra_emu.activities.EmulationActivity"],
+      "supportedSystems": ["3ds"],
+      "extensions": ["3ds", "cci", "cxi", "app"],
+      "launchType": "STANDALONE_VIEW_DATA",
+      "supportsContentUri": true,
+      "supportsFilePath": true,
+      "requiresCore": false,
+      "verified": false,
+      "config": {
+        "action": "android.intent.action.VIEW"
+      }
+    },
+    {
+      "id": "vita3k",
+      "name": "Vita3K",
+      "packages": ["org.vita3k.emulator"],
+      "activities": ["org.vita3k.emulator.Emulator"],
+      "supportedSystems": ["vita"],
+      "extensions": ["vpk", "zip"],
+      "launchType": "STANDALONE_VIEW_DATA",
+      "supportsContentUri": true,
+      "supportsFilePath": true,
+      "requiresCore": false,
+      "verified": false,
+      "config": {
+        "action": "android.intent.action.VIEW"
+      }
+    },
+    {
+      "id": "flycast",
+      "name": "Flycast",
+      "packages": ["com.flycast.emulator"],
+      "activities": ["com.flycast.emulator.MainActivity"],
+      "supportedSystems": ["dreamcast", "arcade"],
+      "extensions": ["chd", "gdi", "cdi", "zip"],
+      "launchType": "STANDALONE_VIEW_DATA",
+      "supportsContentUri": true,
+      "supportsFilePath": true,
+      "requiresCore": false,
+      "verified": true,
+      "config": {
+        "action": "android.intent.action.VIEW"
+      }
+    },
+    {
+      "id": "mupen64plus",
+      "name": "M64Plus FZ",
+      "packages": ["org.mupen64plusae.v3.fzurita"],
+      "activities": ["paulscode.android.mupen64plusae.SplashActivity"],
+      "supportedSystems": ["n64"],
+      "extensions": ["z64", "n64", "v64", "zip", "7z"],
+      "launchType": "STANDALONE_VIEW_DATA",
+      "supportsContentUri": true,
+      "supportsFilePath": true,
+      "requiresCore": false,
+      "verified": true,
+      "config": {
+        "action": "android.intent.action.VIEW"
+      }
+    }
+  ]
+}

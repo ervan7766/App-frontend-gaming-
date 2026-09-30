@@ -1,0 +1,6 @@
+{
+  "name": "AetherDeck",
+  "description": "A modular Android gaming and emulation frontend, library organizer, metadata/artwork scraper, and launcher supporting local ROMs, RetroArch, standalone emulators, Arley4d Bypass, and hardware controllers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
