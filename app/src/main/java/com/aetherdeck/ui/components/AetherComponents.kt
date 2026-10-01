@@ -90,7 +90,8 @@ fun GameCoverCard(
     onLongClick: () -> Unit,
     onFavoriteToggle: () -> Unit,
     modifier: Modifier = Modifier,
-    aspectRatio: Float = 0.72f
+    aspectRatio: Float = 0.72f,
+    onPlayClick: (() -> Unit)? = null
 ) {
     val tokens = LocalAetherTokens.current
     var isFocused by remember { mutableStateOf(false) }
@@ -202,6 +203,32 @@ fun GameCoverCard(
                                 color = MaterialTheme.colorScheme.onSecondaryContainer,
                                 modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)
                             )
+                        }
+                    }
+                }
+
+                // Bottom-left Direct Play touch button (48dp minimum touch target)
+                if (onPlayClick != null) {
+                    IconButton(
+                        onClick = onPlayClick,
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .minimumInteractiveComponentSize()
+                            .testTag("play_btn_${game.id}")
+                    ) {
+                        Surface(
+                            shape = CircleShape,
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.92f),
+                            modifier = Modifier.size(34.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(
+                                    imageVector = Icons.Filled.PlayArrow,
+                                    contentDescription = "Play ${game.displayTitle}",
+                                    tint = MaterialTheme.colorScheme.onPrimary,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
                         }
                     }
                 }

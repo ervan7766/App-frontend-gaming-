@@ -213,7 +213,25 @@ class EmulatorDetector(
 
     fun detectRetroArchPackages(): List<String> {
         val pm = context.packageManager
-        return RETROARCH_PACKAGES.filter { isPackageInstalled(pm, it) }
+        val found = mutableListOf<String>()
+        for (pkg in RETROARCH_PACKAGES) {
+            if (isPackageInstalled(pm, pkg)) {
+                found.add(pkg)
+            }
+        }
+        // Fallback: check launcher activities for any RetroArch package variant (e.g. Plus / Nightly)
+        runCatching {
+            val mainIntent = Intent(Intent.ACTION_MAIN, null).apply {
+                addCategory(Intent.CATEGORY_LAUNCHER)
+            }
+            pm.queryIntentActivities(mainIntent, 0).forEach { resolveInfo ->
+                val pkg = resolveInfo.activityInfo?.packageName ?: return@forEach
+                if ((pkg.startsWith("com.retroarch") || pkg.contains("retroarch", ignoreCase = true)) && !found.contains(pkg)) {
+                    found.add(pkg)
+                }
+            }
+        }
+        return found
     }
 
     fun getPackageVersion(pm: PackageManager, packageName: String): String? {
@@ -299,26 +317,37 @@ class EmulatorDetector(
 
     fun isPackageInstalled(pm: PackageManager, packageName: String): Boolean {
         return try {
-            pm.getPackageInfo(packageName, 0)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                pm.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0))
+            } else {
+                pm.getPackageInfo(packageName, 0)
+            }
             true
         } catch (_: PackageManager.NameNotFoundException) {
             false
         } catch (_: Exception) {
-            false
+            pm.getLaunchIntentForPackage(packageName) != null
         }
     }
 
     fun isActivityResolvable(pm: PackageManager, packageName: String, activityClassName: String): Boolean {
         return try {
+            val component = ComponentName(packageName, activityClassName)
             val intent = Intent().apply {
-                component = ComponentName(packageName, activityClassName)
+                this.component = component
             }
-            val list = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+            val list = pm.queryIntentActivities(intent, 0)
             if (list.isNotEmpty()) return true
-            pm.getActivityInfo(ComponentName(packageName, activityClassName), 0)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                pm.getActivityInfo(component, PackageManager.ComponentInfoFlags.of(0))
+            } else {
+                pm.getActivityInfo(component, 0)
+            }
             true
         } catch (_: Exception) {
-            false
+            // If the package itself is installed and it's RetroArch's standard RetroActivityFuture, allow launch attempt
+            isPackageInstalled(pm, packageName) &&
+                activityClassName == "com.retroarch.browser.retroactivity.RetroActivityFuture"
         }
     }
 }

@@ -109,6 +109,7 @@ class SafLibraryScanner(
             val rootSystemHint = inferSystemFromFolderName(rootDoc.name.orEmpty(), aliasMap)
             walkDocumentTree(
                 doc = rootDoc,
+                librarySourceId = librarySource.id,
                 relativePathPrefix = "",
                 currentSystemHint = rootSystemHint,
                 aliasMap = aliasMap,
@@ -313,6 +314,7 @@ class SafLibraryScanner(
 
     private suspend fun walkDocumentTree(
         doc: DocumentFile,
+        librarySourceId: String,
         relativePathPrefix: String,
         currentSystemHint: String?,
         aliasMap: Map<String, String>,
@@ -333,6 +335,7 @@ class SafLibraryScanner(
                 val folderSys = inferSystemFromFolderName(name, aliasMap) ?: currentSystemHint
                 walkDocumentTree(
                     doc = child,
+                    librarySourceId = librarySourceId,
                     relativePathPrefix = relPath,
                     currentSystemHint = folderSys,
                     aliasMap = aliasMap,
@@ -371,7 +374,7 @@ class SafLibraryScanner(
                 val sourceId = GameGroupingEngine.stableId("src_$uriStr")
                 val sourceEntity = GameSourceEntity(
                     id = sourceId,
-                    librarySourceId = "", // Filled by caller or tied to root
+                    librarySourceId = librarySourceId,
                     sourceUri = uriStr,
                     sourceFileName = name,
                     relativePath = relPath,

@@ -424,14 +424,22 @@ class AetherDeckViewModel(application: Application) : AndroidViewModel(applicati
 
             val source = dao.getGameSourceById(variant.sourceId)
             val system = dao.getSystemById(game.systemId)
-            val preCheck: PreLaunchCheckResult = launchRouter.performPreLaunchCheck(game, variant, source, system)
+            val preCheck: PreLaunchCheckResult = launchRouter.performPreLaunchCheck(
+                game = game,
+                variant = variant,
+                source = source,
+                system = system,
+                preferredRetroArchPackage = settings.value.selectedRetroArchPackage.ifBlank { null }
+            )
 
             if (!preCheck.canLaunch || source == null) {
                 _contextualError.value = preCheck.error
                 return@launch
             }
 
-            val launchResult = launchRouter.executeLaunch(preCheck, source)
+            val launchResult = kotlinx.coroutines.withContext(Dispatchers.Main) {
+                launchRouter.executeLaunch(preCheck, source)
+            }
             launchResult.onSuccess {
                 dao.recordGameLaunch(game.id, System.currentTimeMillis())
             }.onFailure { err ->
@@ -662,12 +670,20 @@ class AetherDeckViewModel(application: Application) : AndroidViewModel(applicati
 
     fun testLaunchRetroArchWithRom(romUri: Uri, coreName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val diag = retroArchAdapter.runTestGameLaunch(
-                preferredPackage = null,
-                romUriString = romUri.toString(),
-                coreFileName = coreName.ifBlank { "snes9x_libretro_android.so" },
-                actuallyStartActivity = true
-            )
+            runCatching {
+                appContext.contentResolver.takePersistableUriPermission(
+                    romUri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            }
+            val diag = kotlinx.coroutines.withContext(Dispatchers.Main) {
+                retroArchAdapter.runTestGameLaunch(
+                    preferredPackage = settings.value.selectedRetroArchPackage.ifBlank { null },
+                    romUriString = romUri.toString(),
+                    coreFileName = coreName.ifBlank { "snes9x_libretro_android.so" },
+                    actuallyStartActivity = true
+                )
+            }
             _retroArchDiagnostic.value = diag
         }
     }

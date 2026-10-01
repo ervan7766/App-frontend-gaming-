@@ -147,7 +147,8 @@ fun HomeScreen(
                             showVariantsBadge = settings.showVariantsBadge,
                             onOpenGameDetails = onOpenGameDetails,
                             onQuickMenuGame = onQuickMenuGame,
-                            onToggleFavorite = onToggleFavorite
+                            onToggleFavorite = onToggleFavorite,
+                            onPlayGame = onPlayGame
                         )
                     }
                 }
@@ -164,7 +165,8 @@ fun HomeScreen(
                             showVariantsBadge = settings.showVariantsBadge,
                             onOpenGameDetails = onOpenGameDetails,
                             onQuickMenuGame = onQuickMenuGame,
-                            onToggleFavorite = onToggleFavorite
+                            onToggleFavorite = onToggleFavorite,
+                            onPlayGame = onPlayGame
                         )
                     }
                 }
@@ -179,7 +181,8 @@ fun HomeScreen(
                             showVariantsBadge = settings.showVariantsBadge,
                             onOpenGameDetails = onOpenGameDetails,
                             onQuickMenuGame = onQuickMenuGame,
-                            onToggleFavorite = onToggleFavorite
+                            onToggleFavorite = onToggleFavorite,
+                            onPlayGame = onPlayGame
                         )
                     }
                 }
@@ -194,7 +197,8 @@ fun HomeScreen(
                             showVariantsBadge = settings.showVariantsBadge,
                             onOpenGameDetails = onOpenGameDetails,
                             onQuickMenuGame = onQuickMenuGame,
-                            onToggleFavorite = onToggleFavorite
+                            onToggleFavorite = onToggleFavorite,
+                            onPlayGame = onPlayGame
                         )
                     }
                 }
@@ -211,7 +215,8 @@ fun HomeScreen(
                             showVariantsBadge = settings.showVariantsBadge,
                             onOpenGameDetails = onOpenGameDetails,
                             onQuickMenuGame = onQuickMenuGame,
-                            onToggleFavorite = onToggleFavorite
+                            onToggleFavorite = onToggleFavorite,
+                            onPlayGame = onPlayGame
                         )
                     }
                 }
@@ -226,7 +231,8 @@ fun HomeScreen(
                             showVariantsBadge = settings.showVariantsBadge,
                             onOpenGameDetails = onOpenGameDetails,
                             onQuickMenuGame = onQuickMenuGame,
-                            onToggleFavorite = onToggleFavorite
+                            onToggleFavorite = onToggleFavorite,
+                            onPlayGame = onPlayGame
                         )
                     }
                 }
@@ -374,7 +380,8 @@ private fun HomeGameRowSection(
     showVariantsBadge: Boolean,
     onOpenGameDetails: (String) -> Unit,
     onQuickMenuGame: (CanonicalGameWithDetails) -> Unit,
-    onToggleFavorite: (CanonicalGameWithDetails) -> Unit
+    onToggleFavorite: (CanonicalGameWithDetails) -> Unit,
+    onPlayGame: (String) -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Text(
@@ -390,6 +397,7 @@ private fun HomeGameRowSection(
                     onClick = { onOpenGameDetails(item.game.id) },
                     onLongClick = { onQuickMenuGame(item) },
                     onFavoriteToggle = { onToggleFavorite(item) },
+                    onPlayClick = { onPlayGame(item.game.id) },
                     modifier = Modifier.width(cardWidthDp.dp)
                 )
             }

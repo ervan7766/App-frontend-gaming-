@@ -72,7 +72,9 @@ class ExampleRobolectricTest {
 
         assertEquals("com.retroarch.aarch64", intent.component?.packageName)
         assertEquals("com.retroarch.browser.retroactivity.RetroActivityFuture", intent.component?.className)
-        assertEquals("snes9x_libretro_android.so", intent.getStringExtra("LIBRETRO"))
+        assertEquals("/storage/emulated/0/ROMs/SNES/ChronoTrigger.sfc", intent.getStringExtra("ROM"))
+        assertEquals("/data/data/com.retroarch.aarch64/cores/snes9x_libretro_android.so", intent.getStringExtra("LIBRETRO"))
+        assertEquals("/data/data/com.retroarch.aarch64", intent.getStringExtra("DATADIR"))
         assertEquals("/storage/emulated/0/Android/data/com.retroarch.aarch64/files/retroarch.cfg", intent.getStringExtra("CONFIGFILE"))
     }
 

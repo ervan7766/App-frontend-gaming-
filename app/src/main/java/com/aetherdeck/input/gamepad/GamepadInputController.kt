@@ -208,7 +208,8 @@ class GamepadInputController {
             ControllerAction.NAV_UP,
             ControllerAction.NAV_DOWN,
             ControllerAction.NAV_LEFT,
-            ControllerAction.NAV_RIGHT
+            ControllerAction.NAV_RIGHT,
+            ControllerAction.CONFIRM
         )
     }
 

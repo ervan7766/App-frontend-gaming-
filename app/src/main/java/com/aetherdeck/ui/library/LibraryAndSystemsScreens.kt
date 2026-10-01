@@ -265,6 +265,7 @@ fun LibraryScreen(
                                 onClick = { onOpenGameDetails(item.game.id) },
                                 onLongClick = { onQuickMenuGame(item) },
                                 onFavoriteToggle = { onToggleFavorite(item) },
+                                onPlayClick = { onPlayGame(item.game.id) },
                                 modifier = Modifier.width(230.dp)
                             )
                         }
@@ -290,7 +291,8 @@ fun LibraryScreen(
                                 showVariantsBadge = settings.showVariantsBadge,
                                 onClick = { onOpenGameDetails(item.game.id) },
                                 onLongClick = { onQuickMenuGame(item) },
-                                onFavoriteToggle = { onToggleFavorite(item) }
+                                onFavoriteToggle = { onToggleFavorite(item) },
+                                onPlayClick = { onPlayGame(item.game.id) }
                             )
                         }
                     }

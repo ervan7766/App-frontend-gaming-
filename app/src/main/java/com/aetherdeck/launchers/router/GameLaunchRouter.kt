@@ -226,7 +226,7 @@ class GameLaunchRouter(
         }
 
         // Route 3: LOCAL_ROM or EMULATION_STATION
-        val effectiveEmulatorId = variant.emulatorOverrideId?.takeIf { it.isNotBlank() }
+        val primaryEmulatorId = variant.emulatorOverrideId?.takeIf { it.isNotBlank() }
             ?: game.emulatorOverrideId?.takeIf { it.isNotBlank() }
             ?: system?.selectedEmulatorId?.takeIf { it.isNotBlank() }
             ?: system?.defaultEmulatorId
@@ -235,12 +235,45 @@ class GameLaunchRouter(
         val effectiveCore = variant.coreOverride?.takeIf { it.isNotBlank() }
             ?: game.coreOverride?.takeIf { it.isNotBlank() }
             ?: system?.selectedCore?.takeIf { it.isNotBlank() }
-            ?: system?.defaultCore
-            ?: ""
+            ?: system?.defaultCore?.takeIf { it.isNotBlank() }
+            ?: RetroArchAdapter.inferDefaultCoreForExtension(source.extension)
+            ?: RetroArchAdapter.inferDefaultCoreForExtension(source.sourceFileName)
+            ?: "snes9x_libretro_android.so"
 
+        val pm = context.packageManager
         val emulators = configManager.loadEmulatorsConfig().emulators
-        val emulatorConfig = emulators.firstOrNull { it.id == effectiveEmulatorId }
-            ?: emulators.firstOrNull { it.launchType == "RETROARCH" }
+        val primaryConfig = emulators.firstOrNull { it.id == primaryEmulatorId }
+
+        // Check if primary emulator is installed; if not, automatically fallback to an installed alternative (e.g. RetroArch)
+        val primaryInstalled = if (primaryConfig?.launchType == "RETROARCH") {
+            retroArchAdapter.resolveInstalledRetroArchPackage(
+                preferredRetroArchPackage?.takeIf { it.isNotBlank() } ?: primaryConfig.packages.firstOrNull()
+            ) != null
+        } else {
+            primaryConfig?.packages?.any { detector.isPackageInstalled(pm, it) } == true
+        }
+
+        val emulatorConfig = if (primaryInstalled && primaryConfig != null && primaryConfig.verified) {
+            primaryConfig
+        } else {
+            val altIds = system?.alternativeEmulatorIdsCsv
+                ?.split(",")
+                ?.map { it.trim() }
+                ?.filter { it.isNotEmpty() }
+                .orEmpty()
+            val installedAlt = altIds.mapNotNull { id -> emulators.firstOrNull { it.id == id && it.verified } }
+                .firstOrNull { cfg ->
+                    if (cfg.launchType == "RETROARCH") {
+                        retroArchAdapter.resolveInstalledRetroArchPackage() != null
+                    } else {
+                        cfg.packages.any { detector.isPackageInstalled(pm, it) }
+                    }
+                }
+            installedAlt
+                ?: emulators.firstOrNull { it.launchType == "RETROARCH" && retroArchAdapter.resolveInstalledRetroArchPackage() != null }
+                ?: primaryConfig
+                ?: emulators.firstOrNull { it.launchType == "RETROARCH" }
+        }
 
         val readable = retroArchAdapter.isRomReadable(source.sourceUri)
         if (!source.available || !readable) {
@@ -281,7 +314,7 @@ class GameLaunchRouter(
                 resolvedUri = source.sourceUri,
                 error = ContextualError(
                     title = "NO SE PUEDE INICIAR",
-                    whatHappened = "No hay un emulador válido configurado para '$effectiveEmulatorId'.",
+                    whatHappened = "No hay un emulador válido configurado para '$primaryEmulatorId'.",
                     whyItHappened = "El sistema '${game.systemId}' necesita un emulador asignado.",
                     howToFix = "Selecciona un emulador para ${system?.name ?: game.systemId} en Emuladores.",
                     settingsRoute = "emulators"
@@ -289,7 +322,6 @@ class GameLaunchRouter(
             )
         }
 
-        val pm = context.packageManager
         val isRetroArch = emulatorConfig.launchType == "RETROARCH"
 
         // For RetroArch, dynamically resolve any installed RetroArch package (selected preferred -> configured -> any installed variant)
@@ -301,7 +333,9 @@ class GameLaunchRouter(
             emulatorConfig.packages.firstOrNull { detector.isPackageInstalled(pm, it) }
         }
 
-        val resolvedAct = if (installedPkg != null) {
+        val resolvedAct = if (isRetroArch) {
+            RetroArchAdapter.DEFAULT_RETROARCH_ACTIVITY
+        } else if (installedPkg != null) {
             emulatorConfig.activities.firstOrNull { detector.isActivityResolvable(pm, installedPkg, it) }
                 ?: pm.getLaunchIntentForPackage(installedPkg)?.component?.className
                 ?: emulatorConfig.activities.firstOrNull()
@@ -390,17 +424,17 @@ class GameLaunchRouter(
         val core = checkResult.resolvedCore
 
         return try {
-            val intent = if (core != null) {
-                retroArchAdapter.createLaunchIntent(
+            if (core != null) {
+                retroArchAdapter.launchRetroArchActivityWithFallback(
                     packageName = pkg,
-                    activityName = act,
+                    primaryActivity = act,
                     romUriOrPath = source.sourceUri,
                     coreFileName = core
                 )
             } else {
-                buildStandaloneIntent(pkg, act, source.sourceUri)
+                val intent = buildStandaloneIntent(pkg, act, source.sourceUri)
+                context.startActivity(intent)
             }
-            context.startActivity(intent)
             AetherLogger.recordLaunch("Launched $pkg/$act -> uri=${source.sourceUri} core=${core ?: "standalone"}")
             Result.success(Unit)
         } catch (e: Exception) {
